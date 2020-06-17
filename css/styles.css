@@ -1,15 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 body {
-    background-color: #e8e8e8;
+    background-color: lightgrey;
     font-family: 'Open Sans', sans-serif;
-
 }
 
 #calculator-container {
     margin: 100px auto;
-    position: relative;
-    height: 550px;
+    height: 500px;
     width: 350px;
     display: flex;
     flex-direction: column;
@@ -19,26 +17,18 @@ body {
 }
 
 #display-field {
-    height: 150px;
+    height: 100px;
     width: 350px;
     background-color: white;
     position: relative;
     color: rgb(97, 108, 116);
 }
 
-#primary-field {
+#text-field {
     position: absolute;
     right: 20px;
-    bottom: 15px;
-    font-size: 3.5em;
-}
-
-#secondary-field {
-    position: absolute;
-    right: 25px;
-    top: 40px;
-    font-size: 1.2em;
-    color: rgb(140, 140, 140);
+    top: 30px;
+    font-size: 3em;
 }
 
 #buttons-grid {
@@ -72,18 +62,27 @@ button:active {
     background-color: #F3F9FE;
 
  }
+
 .standard-operator{
     background-color: rgb(40, 64, 84);
     color: white;
 }
 
+.standard-operator:hover{
+    color: rgb(40, 64, 84);
+}
+
 .central-buttons:hover {
-    background-color: sandybrown;
+    background-color: #fc953e;
 }
 
 .equalBTN {
     background-color: rgb(81, 194, 205);
     color: white;
+}
+
+.equalBTN:hover {
+    color: rgb(40, 64, 84);;
 }
 
 .zeroBTN {
