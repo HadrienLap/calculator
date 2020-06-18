@@ -2,47 +2,74 @@ const buttons = document.querySelectorAll('button');
 const textField = document.getElementById('text-field');
 
 const values = {
-    result: '',
     previousNumber: '',
+    currentNumber: '',
     displayedNumber: '',
     previousOperator: '',
-    currentOperator: ''
+    currentOperator: '',
+    result: '',
+    previousResultWait: ''
 }
+
+let waitForSecondNumber = false;
+let performedEqual = false;
 
 buttons.forEach(button => button.addEventListener('click', (e) => {
     const currentClass = e.srcElement.classList;
 
     if (currentClass.contains('number')) {
+
+        if (waitForSecondNumber) {
+            values.previousNumber = values.currentNumber;
+            values.currentNumber = '';
+            waitForSecondNumber = false;
+        }
+
+        if (performedEqual) {
+            reset ();
+            performedEqual = false;
+        }
+
         // Max input length is 9 digits
-        if (values.displayedNumber.toString().length > 8) return;
+        if (values.currentNumber.toString().length > 8) return;
 
         // Input number is stored and displayed
-        values.displayedNumber += e.srcElement.innerText.toString();
+        values.currentNumber += e.srcElement.innerText.toString();
+        values.displayedNumber = values.currentNumber;
         textField.innerText = values.displayedNumber;
         }
 
         // Number can have decimals if not a decimal yet
         if (currentClass.contains('point')) {
-            if (!values.displayedNumber.includes('.')) {
-                values.displayedNumber += e.srcElement.innerText.toString();
+            if (!values.currentNumber.includes('.')) {
+                values.currentNumber += e.srcElement.innerText.toString();
+                values.displayedNumber = values.currentNumber;
                 textField.innerText = values.displayedNumber;
             }  
         }     
 
     if (currentClass.contains('operator')) {
         values.currentOperator = e.srcElement.innerText.toString();
+        performedEqual = false;
 
         if (values.previousNumber === '') {
-            values.previousNumber = values.displayedNumber;
-            values.displayedNumber = '';
-            values.previousOperator = e.srcElement.innerText.toString();
+            waitForSecondNumber = true;
+            values.previousOperator = values.currentOperator;
             return;
         }
+
+        if (currentClass.contains('proceed')) {
+            equal();
+            values.previousNumber = values.displayedNumber;
+            values.currentNumber = '';
+        }
+
         values.previousOperator = e.srcElement.innerText.toString();
     }
 
     // Equal function
     if (currentClass.contains('equalBTN')) {
+        performedEqual = true;
         equal ();
     }
         
@@ -53,7 +80,8 @@ buttons.forEach(button => button.addEventListener('click', (e) => {
     }
     // Delete function
     if (currentClass.contains('delete')) {
-        values.displayedNumber = textField.innerText.slice(0, -1);
+        values.currentNumber = textField.innerText.slice(0, -1);
+        values.displayedNumber = values.currentNumber;
         textField.innerText = values.displayedNumber;
         return;
     }
@@ -82,14 +110,14 @@ function reset () {
 
 function equal () {
     // Return error if operand missing or in case of a division by 0
-    if (!values.previousNumber ||
-        values.previousOperator === '/' && values.displayedNumber === '0') {
+    if (values.previousNumber === '' ||
+        (values.previousOperator === '/' && values.currentNumber === '0')) {
         error();
         return;
     }
 
     // Get the result of the operation
-    values.result = operate(values.previousOperator, values.previousNumber, values.displayedNumber);
+    values.result = operate(values.previousOperator, values.previousNumber, values.currentNumber);
     
     // Too large decimales are rounded 
     values.result = +values.result.toFixed(8);
@@ -102,11 +130,11 @@ function equal () {
     // Result is displayed and variables are set for the next operation
     values.displayedNumber = values.result;
     textField.innerText = values.displayedNumber;
+    values.currentNumber = values.displayedNumber;
     values.previousNumber = '';
 }
 
 function error () {
     reset(); 
     textField.innerText = 'Error';
-    return;
 }
