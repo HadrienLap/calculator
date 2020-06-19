@@ -15,17 +15,17 @@ let waitForSecondNumber = false;
 let performedEqual = false;
 
 document.addEventListener('keydown', (e) => {
+    console.log(e.which)
     buttons.forEach(button => {
-        if (button.dataset.key === e.key) {
+        if (button.dataset.key == e.which) {
             input(button);
         };
     });
 });
 
-buttons.forEach(button => button.addEventListener('click', (e) => {
+buttons.forEach(button => button.addEventListener('mousedown', (e) => {
     input(e.target);
 }));
-
 
 function input (target) {
     const currentClass = target.classList;
@@ -85,18 +85,15 @@ function input (target) {
         performedEqual = true;
         equal ();
     }
-        
     // Reset function
     if (currentClass.contains('reset')) {
         reset ();
-        return;
     }
     // Delete function
     if (currentClass.contains('delete')) {
         values.currentNumber = textField.innerText.slice(0, -1);
         values.displayedNumber = values.currentNumber;
         textField.innerText = values.displayedNumber;
-        return;
     }
 };
 
@@ -118,6 +115,8 @@ function mod (a, b) {return ((a % b) + b) % b;}
 
 function reset () {
     Object.keys(values).forEach(value => values[value] = ''); 
+    waitForSecondNumber = false;
+    performedEqual = false;
     textField.innerText = '';
 }
 
@@ -134,7 +133,6 @@ function equal () {
     
     // Format the result if too many decimales or digits
     values.result = formatResult(values.result);
-   
     
     // Result is displayed and variables are set for the next operation
     values.displayedNumber = values.result;
