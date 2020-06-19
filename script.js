@@ -23,7 +23,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 buttons.forEach(button => button.addEventListener('click', (e) => {
-    input (e.target);
+    input(e.target);
 }));
 
 
@@ -132,13 +132,9 @@ function equal () {
     // Get the result of the operation
     values.result = operate(values.previousOperator, values.previousNumber, values.currentNumber);
     
-    // Too large decimales are rounded 
-    values.result = +values.result.toFixed(8);
-
-    // Too large value are diplayed in scientific notation
-    if (values.result.toString().length > 10) {
-        values.result = values.result.toExponential(2);
-    }
+    // Format the result if too many decimales or digits
+    values.result = formatResult(values.result);
+   
     
     // Result is displayed and variables are set for the next operation
     values.displayedNumber = values.result;
@@ -150,4 +146,15 @@ function equal () {
 function error () {
     reset(); 
     textField.innerText = 'Error';
+}
+
+function formatResult (result) {
+     // Too large decimales are rounded 
+     result = +result.toFixed(8);
+
+     // Too large value are diplayed in scientific notation
+     if (result.toString().length > 10) {
+         result = result.toExponential(2);
+     }
+     return result;
 }
