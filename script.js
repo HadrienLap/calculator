@@ -14,8 +14,21 @@ const values = {
 let waitForSecondNumber = false;
 let performedEqual = false;
 
+document.addEventListener('keydown', (e) => {
+    buttons.forEach(button => {
+        if (button.dataset.key === e.key) {
+            input(button);
+        };
+    });
+});
+
 buttons.forEach(button => button.addEventListener('click', (e) => {
-    const currentClass = e.srcElement.classList;
+    input (e.target);
+}));
+
+
+function input (target) {
+    const currentClass = target.classList;
 
     if (currentClass.contains('number')) {
 
@@ -34,7 +47,7 @@ buttons.forEach(button => button.addEventListener('click', (e) => {
         if (values.currentNumber.toString().length > 8) return;
 
         // Input number is stored and displayed
-        values.currentNumber += e.srcElement.innerText.toString();
+        values.currentNumber += target.innerText.toString();
         values.displayedNumber = values.currentNumber;
         textField.innerText = values.displayedNumber;
         }
@@ -42,14 +55,14 @@ buttons.forEach(button => button.addEventListener('click', (e) => {
         // Number can have decimals if not a decimal yet
         if (currentClass.contains('point')) {
             if (!values.currentNumber.includes('.')) {
-                values.currentNumber += e.srcElement.innerText.toString();
+                values.currentNumber += target.innerText.toString();
                 values.displayedNumber = values.currentNumber;
                 textField.innerText = values.displayedNumber;
             }  
         }     
 
     if (currentClass.contains('operator')) {
-        values.currentOperator = e.srcElement.innerText.toString();
+        values.currentOperator = target.innerText.toString();
         performedEqual = false;
 
         if (values.previousNumber === '') {
@@ -64,7 +77,7 @@ buttons.forEach(button => button.addEventListener('click', (e) => {
             values.currentNumber = '';
         }
 
-        values.previousOperator = e.srcElement.innerText.toString();
+        values.previousOperator = target.innerText.toString();
     }
 
     // Equal function
@@ -85,7 +98,7 @@ buttons.forEach(button => button.addEventListener('click', (e) => {
         textField.innerText = values.displayedNumber;
         return;
     }
-}));
+};
 
 function operate (operator, a, b) {
     switch (operator) {
