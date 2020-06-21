@@ -35,11 +35,7 @@ function input (target) {
 
         operatorSelectionBGRemove ();
 
-        if (waitForSecondNumber) {
-            values.previousNumber = values.currentNumber;
-            values.currentNumber = '';
-            waitForSecondNumber = false;
-        };
+        if (waitForSecondNumber) waitForSecondNumber = false;
 
         // Entering a number (instead of an operator) after performing equal reset and start a new operation
         if (performedEqual) {
@@ -59,10 +55,11 @@ function input (target) {
         // Number can have decimals if not a decimal yet
         if (currentClass.contains('point')) {
             if (!values.currentNumber.includes('.')) {
+                if (values.currentNumber === '') values.currentNumber = '0';
                 values.currentNumber += target.innerText.toString();
                 values.displayedNumber = values.currentNumber;
                 textField.innerText = values.displayedNumber;
-            };
+            };  
         };
 
     if (currentClass.contains('operator')) {
@@ -89,6 +86,8 @@ function input (target) {
         if (values.previousNumber === '') {
             waitForSecondNumber = true;
             values.previousOperator = values.currentOperator;
+            values.previousNumber = values.currentNumber;
+            values.currentNumber = '';
             return;
         };
 
