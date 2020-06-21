@@ -1,19 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
 
 body {
-    background-color: lightgrey;
+    background-image: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
     font-family: 'Open Sans', sans-serif;
 }
 
 #calculator-container {
-    margin: 100px auto;
+    margin: 125px auto;
     height: 500px;
     width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 2%;
-    box-shadow: -3px -1px 40px 8px #4d4d4d;
+    overflow: hidden;
+    background-color: #aaaaaa;
+    box-shadow: 0 0 20px 0px black;
 }
 
 #display-field {

@@ -39,6 +39,7 @@ function input (target) {
             waitForSecondNumber = false;
         };
 
+        // Entering a number (instead of an operator) after performing equal reset and start a new operation
         if (performedEqual) {
             reset ();
             performedEqual = false;
