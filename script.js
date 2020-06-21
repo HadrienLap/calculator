@@ -66,17 +66,17 @@ function input (target) {
     if (currentClass.contains('operator')) {
         values.currentOperator = target.innerText.toString();
         
-
+        // Check if waiting for precedence is needed
         if ((values.currentOperator === 'x' || values.currentOperator === '/') 
-            && (waitForPrecedence === false)
-            && (performedEqual === false)
+            && waitForPrecedence === false
+            && performedEqual === false
             && values.previousOperator !== 'x' 
             && values.previousOperator !== '/') {
-            values.previousResultWait = values.previousNumber;
-            values.operatorWait = values.previousOperator;
-            values.previousNumber = '';
-            waitForPrecedence = true;
-        }
+                values.previousResultWait = values.previousNumber;
+                values.operatorWait = values.previousOperator;
+                values.previousNumber = '';
+                waitForPrecedence = true;
+        };
 
         performedEqual = false;
 
@@ -87,15 +87,17 @@ function input (target) {
         };
 
         equal();
+        // Setting variables to receive next number
         values.previousNumber = values.displayedNumber;
         values.currentNumber = '';
         values.previousOperator = target.innerText.toString();
    };
-
     // Equal function
     if (currentClass.contains('equalBTN')) {
         performedEqual = true;
         equal ();
+
+        // Setting variables to receive next number or operator
         values.operatorWait = '';
         values.previousNumber = '';
         waitForPrecedence = false;
@@ -156,7 +158,7 @@ function equal () {
         values.result = operate(values.operatorWait, values.previousResultWait, values.result);
         waitForPrecedence = false;
         values.previousResultWait = '';
-    }
+    };
     // Format the result if too many decimales or digits
     values.result = formatResult(+values.result);
     
