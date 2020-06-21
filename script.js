@@ -188,7 +188,7 @@ function formatResult (result) {
 
      // Too large value are diplayed in scientific notation
      if (result.toString().length > 10) {
-         result = result.toExponential(2);
+         result = result.toExponential(6);
      }
      return result;
 }
