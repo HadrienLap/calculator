@@ -68,7 +68,9 @@ function input (target) {
 
         if ((values.currentOperator === 'x' || values.currentOperator === '/') 
             && (waitForPrecedence === false)
-            && (performedEqual === false)) {
+            && (performedEqual === false)
+            && values.previousOperator !== 'x' 
+            && values.previousOperator !== '/') {
             values.previousResultWait = values.previousNumber;
             values.operatorWait = values.previousOperator;
             values.previousNumber = '';
@@ -96,7 +98,6 @@ function input (target) {
         values.operatorWait = '';
         values.previousNumber = '';
         waitForPrecedence = false;
-
     };
     // Reset function
     if (currentClass.contains('reset')) {
