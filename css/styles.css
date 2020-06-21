@@ -90,3 +90,7 @@ button:active {
 .zeroBTN {
     grid-column: span 2;
 }
+
+.selectedOperator {
+    background-color: #FF9800 !important;
+}

@@ -33,6 +33,8 @@ function input (target) {
 
     if (currentClass.contains('number')) {
 
+        operatorSelectionBGRemove ();
+
         if (waitForSecondNumber) {
             values.previousNumber = values.currentNumber;
             values.currentNumber = '';
@@ -65,6 +67,10 @@ function input (target) {
 
     if (currentClass.contains('operator')) {
         values.currentOperator = target.innerText.toString();
+
+        // Style BG color of selected operator only
+        operatorSelectionBGRemove ();
+        operatorSelectionBG (currentClass);
         
         // Check if waiting for precedence is needed
         if ((values.currentOperator === 'x' || values.currentOperator === '/') 
@@ -136,6 +142,7 @@ function reset () {
     performedEqual = false;
     waitForPrecedence = false;
     textField.innerText = '';
+    operatorSelectionBGRemove ();
 }
 
 function equal () {
@@ -184,4 +191,12 @@ function formatResult (result) {
          result = result.toExponential(2);
      }
      return result;
+}
+
+function operatorSelectionBG (currentClass) {
+    currentClass.add('selectedOperator');
+}
+
+function operatorSelectionBGRemove () {
+    buttons.forEach(button => button.classList.remove('selectedOperator'));
 }
