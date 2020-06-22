@@ -88,10 +88,6 @@ button:active {
     color: rgb(40, 64, 84);;
 }
 
-.zeroBTN {
-    grid-column: span 2;
-}
-
 .selectedOperator {
     background-color: #FF9800 !important;
 }

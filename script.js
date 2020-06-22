@@ -43,6 +43,18 @@ function input (target) {
             }; return;
         };
 
+        if (currentClass.contains('signChange')) {
+            values.currentNumber = values.currentNumber.toString();
+            if (values.currentNumber.charAt(0) !== '-') {
+                values.currentNumber = '-' + values.currentNumber;
+            } else {
+                values.currentNumber = values.currentNumber.slice(1);
+            };
+            values.displayedNumber = values.currentNumber;
+            textField.innerText = values.displayedNumber;
+            return;
+        };
+
         // Entering a number (instead of an operator) after performing equal reset and start a new operation
         if (performedEqual) {
             reset ();
