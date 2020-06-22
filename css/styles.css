@@ -75,7 +75,8 @@ button:active {
 }
 
 .central-buttons:hover {
-    background-color: #fc953e;
+    background-color: #FF9800;
+    color: white;
 }
 
 .equalBTN {
