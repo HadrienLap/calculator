@@ -11,8 +11,6 @@ const values = {
     operatorWait : '',
     previousResultWait : ''
 }
-
-let waitForSecondNumber = false;
 let performedEqual = false;
 let waitForPrecedence = false;
 
@@ -35,7 +33,15 @@ function input (target) {
 
         operatorSelectionBGRemove ();
 
-        if (waitForSecondNumber) waitForSecondNumber = false;
+        // Number can have decimals if not a decimal yet
+        if (currentClass.contains('point')) {
+            if (!values.currentNumber.includes('.')) {
+                if (values.currentNumber === '') values.currentNumber = '0';
+                values.currentNumber += target.innerText.toString();
+                values.displayedNumber = values.currentNumber;
+                textField.innerText = values.displayedNumber;
+            }; return;
+        };
 
         // Entering a number (instead of an operator) after performing equal reset and start a new operation
         if (performedEqual) {
@@ -51,16 +57,6 @@ function input (target) {
         values.displayedNumber = values.currentNumber;
         textField.innerText = values.displayedNumber;
     };
-
-        // Number can have decimals if not a decimal yet
-        if (currentClass.contains('point')) {
-            if (!values.currentNumber.includes('.')) {
-                if (values.currentNumber === '') values.currentNumber = '0';
-                values.currentNumber += target.innerText.toString();
-                values.displayedNumber = values.currentNumber;
-                textField.innerText = values.displayedNumber;
-            };  
-        };
 
     if (currentClass.contains('operator')) {
         values.currentOperator = target.innerText.toString();
@@ -83,8 +79,8 @@ function input (target) {
 
         performedEqual = false;
 
+        // If only one number is entered, set the variables to receive it and return
         if (values.previousNumber === '') {
-            waitForSecondNumber = true;
             values.previousOperator = values.currentOperator;
             values.previousNumber = values.currentNumber;
             values.currentNumber = '';
@@ -97,11 +93,11 @@ function input (target) {
         values.currentNumber = '';
         values.previousOperator = target.innerText.toString();
    };
+
     // Equal function
     if (currentClass.contains('equalBTN')) {
         performedEqual = true;
         equal ();
-
         // Setting variables to receive next number or operator
         values.operatorWait = '';
         values.previousNumber = '';
@@ -137,7 +133,6 @@ function mod (a, b) {return ((a % b) + b) % b;}
 
 function reset () {
     Object.keys(values).forEach(value => values[value] = ''); 
-    waitForSecondNumber = false;
     performedEqual = false;
     waitForPrecedence = false;
     textField.innerText = '';
