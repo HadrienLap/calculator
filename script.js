@@ -33,16 +33,7 @@ function input (target) {
 
         operatorSelectionBGRemove ();
 
-        // Number can have decimals if not a decimal yet
-        if (currentClass.contains('point')) {
-            if (!values.currentNumber.includes('.')) {
-                if (values.currentNumber === '') values.currentNumber = '0';
-                values.currentNumber += target.innerText.toString();
-                values.displayedNumber = values.currentNumber;
-                textField.innerText = values.displayedNumber;
-            }; return;
-        };
-
+        // Possible to change the sign of current number
         if (currentClass.contains('signChange')) {
             values.currentNumber = values.currentNumber.toString();
             if (values.currentNumber.charAt(0) !== '-') {
@@ -54,7 +45,7 @@ function input (target) {
             textField.innerText = values.displayedNumber;
             return;
         };
-
+        
         // Entering a number (instead of an operator) after performing equal reset and start a new operation
         if (performedEqual) {
             reset ();
@@ -63,6 +54,16 @@ function input (target) {
 
         // Max input length is 9 digits
         if (values.currentNumber.toString().length > 8) return;
+
+        // Number can have decimals if not a decimal yet
+        if (currentClass.contains('point')) {
+            if (!values.currentNumber.includes('.')) {
+                if (values.currentNumber === '') values.currentNumber = '0';
+                values.currentNumber += target.innerText.toString();
+                values.displayedNumber = values.currentNumber;
+                textField.innerText = values.displayedNumber;
+            }; return;
+        };
 
         // Input number is stored and displayed
         values.currentNumber += target.innerText.toString();
