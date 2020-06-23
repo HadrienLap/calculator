@@ -9,7 +9,9 @@ const values = {
     currentOperator: '',
     result: '',
     operatorWait : '',
-    previousResultWait : ''
+    previousResultWait : '',
+    operatorBeforeEqual: '',
+    operandBeforeEqual: ''
 }
 let performedEqual = false;
 let waitForPrecedence = false;
@@ -106,9 +108,13 @@ function input (target) {
         values.currentNumber = '';
         values.previousOperator = target.innerText.toString();
    };
-
     // Equal function
     if (currentClass.contains('equalBTN')) {
+        if (performedEqual) {
+            values.previousOperator = values.operatorBeforeEqual;
+            values.previousNumber = values.currentNumber;
+            values.currentNumber = values.operandBeforeEqual;
+        }
         performedEqual = true;
         equal ();
         // Setting variables to receive next number or operator
@@ -179,6 +185,8 @@ function equal () {
     // Result is displayed and variables are set for the next operation
     values.displayedNumber = values.result;
     textField.innerText = values.displayedNumber;
+    values.operandBeforeEqual = values.currentNumber;
+    values.operatorBeforeEqual = values.previousOperator;
     values.currentNumber = values.displayedNumber;
     values.currentOperator = '';
     values.previousOperator = '';
